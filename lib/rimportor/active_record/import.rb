@@ -6,19 +6,29 @@ module Rimportor
 
       def initialize(bulk, opts = {})
         @bulk = bulk
-        @before_callbacks = !!opts[:exec_before_callbacks]
-        @after_callbacks = !!opts[:exec_after_callbacks]
+        @before_callbacks = !!opts[:before_callbacks]
+        @after_callbacks = !!opts[:after_callbacks]
+        @validate_bulk = !!opts[:validate_bulk]
       end
 
       def run_before_callbacks
         ::Parallel.map(@bulk, in_threads: 4) do |element|
-          element.execute_callbacks(element, :before)
+          execute_callbacks(element, :before)
         end
       end
 
       def run_after_callbacks
         ::Parallel.map(@bulk, in_threads: 4) do |element|
-          element.execute_callbacks(element, :after)
+          execute_callbacks(element, :after)
+        end
+      end
+
+      def run_validations
+        validation_result = ::Parallel.map(@bulk, in_threads: 4) do |element|
+          element.valid?
+        end.all?
+        if !validation_result
+          raise Rimportor::Error::BulkValidation.new("Your bulk is not valid")
         end
       end
 
@@ -40,9 +50,16 @@ module Rimportor
       end
 
       def exec_statement
-        run_before_callbacks if @before_callbacks
-        ::ActiveRecord::Base.connection.execute import_statement
-        run_after_callbacks if @after_callbacks
+        begin
+          run_validations if @validate_bulk
+          run_before_callbacks if @before_callbacks
+          ::ActiveRecord::Base.connection.execute import_statement
+          run_after_callbacks if @after_callbacks
+          true
+        rescue => e
+          puts "Error importing the bulk. Reason #{e.message}"
+          false
+        end
       end
 
     end

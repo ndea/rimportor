@@ -7,11 +7,13 @@ module Rimportor
 
     module ClassMethods
       def rimport(records, options = {})
-        if options[:run_callbacks]
-          records = ::Rimportor::ActiveRecord::Import.new
-        end
-        ::Rimportor::ActiveRecord::Import.new(records).exec_statement
+        ::Rimportor::ActiveRecord::Import.new(records, options).exec_statement
       end
+
+      def rimport!(records, options = {})
+
+      end
+
     end
 
   end
