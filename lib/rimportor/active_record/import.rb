@@ -9,22 +9,23 @@ module Rimportor
         @before_callbacks = !!opts[:before_callbacks]
         @after_callbacks = !!opts[:after_callbacks]
         @validate_bulk = !!opts[:validate_bulk]
+        @threads = Rimportor.configuration.threads
       end
 
       def run_before_callbacks
-        ::Parallel.map(@bulk, in_threads: 4) do |element|
+        ::Parallel.map(@bulk, in_threads: @threads) do |element|
           execute_callbacks(element, :before)
         end
       end
 
       def run_after_callbacks
-        ::Parallel.map(@bulk, in_threads: 4) do |element|
+        ::Parallel.map(@bulk, in_threads: @threads) do |element|
           execute_callbacks(element, :after)
         end
       end
 
       def run_validations
-        validation_result = ::Parallel.map(@bulk, in_threads: 4) do |element|
+        validation_result = ::Parallel.map(@bulk, in_threads: @threads) do |element|
           element.valid?
         end.all?
         if !validation_result
@@ -43,7 +44,7 @@ module Rimportor
 
       def import_statement
         insert_statement = SqlBuilder.new(@bulk.first).full_insert_statement
-        result = ::Parallel.map(@bulk.drop(1), in_threads: 4) do |element|
+        result = ::Parallel.map(@bulk.drop(1), in_threads: @threads) do |element|
           SqlBuilder.new(element).partial_insert_statement.gsub('VALUES', '')
         end
         "#{insert_statement},#{result.join(',')}"
