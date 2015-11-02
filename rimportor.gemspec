@@ -10,11 +10,11 @@ Gem::Specification.new do |s|
   s.authors = ["Erwin Schens"]
   s.email = ["erwin.schens@qurasoft.de"]
   s.homepage = "TODO"
-  s.summary = "Fast and modern bulk import for ruby on rails."
-  s.description = "Fast and modern bulk import for ruby on rails."
+  s.summary = "Fast, modern and concurrent bulk import for ruby on rails."
+  s.description = "Fast, modern and concurrent bulk import for ruby on rails."
   s.license = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency 'rails', '~> 4.2.4'
   s.add_dependency 'parallel', '~> 1.6.0'
