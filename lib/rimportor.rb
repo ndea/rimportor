@@ -4,6 +4,22 @@ require 'rimportor/plugin'
 require 'rimportor/error/bulk_validation'
 
 module Rimportor
+  class << self
+    attr_accessor :configuration
+  end
+
+  def self.configure
+    self.configuration ||= Configuration.new
+    yield(configuration) if block_given?
+  end
+
+  class Configuration
+    attr_accessor :threads
+
+    def initialize
+      @threads = 4
+    end
+  end
 end
 
 ActiveRecord::Base.send :include, Rimportor::Plugin
