@@ -81,7 +81,12 @@ class TestDummy < ActiveRecord::Base
     validates_presence_of :lorem
 end
 ```
-All times are displayed in seconds. And a batch size of 5000 together with 4 threads was used.
+Following statement was used for importing the records:
+```ruby
+TestDummy.rimport test_dummies, validate_bulk: true, batch_size: 5000
+```
+All times are displayed in seconds. Every record is validated and a batch size of 5000 together with 4 threads was used.
+
 ## [![](http://i.imgur.com/kJJWImi.png)](https://qurasoft.de)
 
 ## Development
