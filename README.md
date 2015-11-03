@@ -14,7 +14,7 @@ By working directly on the model Rimportor is able to execute callbacks and vali
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rimportor', '~> 0.2'
+gem 'rimportor', '~> 0.3'
 ```
 
 And then execute:
