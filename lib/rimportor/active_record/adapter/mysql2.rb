@@ -3,6 +3,8 @@ module Rimportor
     module Adapter
       class Mysql2
 
+        # Returns maximum number of bytes that the server will accept for a query
+        # @return [Fixnum] number of maximum allowed packet size
         def max_allowed_packet
           exec_in_pool do |connection|
             result = connection.execute("SHOW VARIABLES like 'max_allowed_packet';")
@@ -17,6 +19,8 @@ module Rimportor
           end
         end
 
+        # Checks if the given statement is too big for the database insert
+        # @return [TrueClass, FalseClass] true if the statement size is too big for the database else false
         def statement_too_big?(statement)
           statement.size > max_allowed_packet
         end
