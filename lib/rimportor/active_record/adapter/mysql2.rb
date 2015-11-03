@@ -17,6 +17,23 @@ module Rimportor
           end
         end
 
+        def statement_too_big?(statement)
+          statement.size > max_allowed_packet
+        end
+
+        def exec_insert(import_statement)
+          insert_statement, value_statements = import_statement
+          if statement_too_big? ("#{insert_statement}, #{value_statements.join(',')}")
+            puts 'Statement too big'
+          else
+            exec_statement "#{insert_statement},#{value_statements.join(',')}"
+          end
+        end
+
+        def exec_statement(statement)
+          exec_in_pool { |connection| connection.execute statement }
+        end
+
       end
     end
   end
