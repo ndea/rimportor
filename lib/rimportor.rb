@@ -2,6 +2,8 @@ require 'rimportor/active_record/sql_builder'
 require 'rimportor/active_record/import'
 require 'rimportor/plugin'
 require 'rimportor/error/bulk_validation'
+require 'rimportor/error/invalid_adapter'
+require 'rimportor/active_record/adapter/mysql2'
 require 'generators/install_generator'
 
 module Rimportor

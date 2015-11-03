@@ -4,8 +4,9 @@ module Rimportor
   module ActiveRecord
     class Import
 
-      def initialize(bulk, opts = {})
+      def initialize(bulk, adapter, opts = {})
         @bulk = bulk
+        @adapter = adapter
         @before_callbacks = !!opts[:before_callbacks]
         @after_callbacks = !!opts[:after_callbacks]
         @validate_bulk = !!opts[:validate_bulk]

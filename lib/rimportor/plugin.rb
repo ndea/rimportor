@@ -7,11 +7,19 @@ module Rimportor
 
     module ClassMethods
       def rimport(records, options = {})
-        ::Rimportor::ActiveRecord::Import.new(records, options).exec_statement
+        ::Rimportor::ActiveRecord::Import.new(records, self.current_adapter, options).exec_statement
       end
 
-      def rimport!(records, options = {})
+      def current_adapter
+        load_adapter(::ActiveRecord::Base.connection_config[:adapter])
+      end
 
+      def load_adapter(adapter_name)
+        begin
+          ::Rimportor::ActiveRecord::Adapter.const_get(adapter_name.to_s.camelize).new
+        rescue => e
+          raise ::Rimportor::Error::InvalidAdapter.new("Invalid adapter. Reason #{e}")
+        end
       end
 
     end
