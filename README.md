@@ -64,7 +64,25 @@ User.rimport users, batch_size: 100
 
 ## Benchmarks
 
-In progress...
+The below benchmarks were done with MySQL 5.6.26 on Mac OSX 10.11.1, test were run against the InnoDB engine. 
+Following ActiveRecord model was used for this benchmark:
+```ruby
+# == Schema Information
+#
+# Table name: test_dummies
+#
+#  id           :integer          not null, primary key
+#  lorem       :string(255)
+#  lorem2          :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+class TestDummy < ActiveRecord::Base
+    validates_presence_of :lorem
+end
+```
+All times are displayed in seconds. And a batch size of 5000 together with 4 threads was used.
+## [![](http://i.imgur.com/kJJWImi.png)](https://qurasoft.de)
 
 ## Development
 
