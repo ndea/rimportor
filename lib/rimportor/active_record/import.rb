@@ -43,7 +43,7 @@ module Rimportor
       def import_statement
         insert_statement = SqlBuilder.new(@bulk.first).full_insert_statement
         result = ::Parallel.map(@bulk.drop(1), in_threads: @threads) do |element|
-          SqlBuilder.new(element).partial_insert_statement.gsub('VALUES', '')
+          in_pool { SqlBuilder.new(element).partial_insert_statement.gsub('VALUES', '') }
         end
         "#{insert_statement},#{result.join(',')}"
       end
@@ -58,6 +58,12 @@ module Rimportor
         rescue => e
           puts "Error importing the bulk. Reason #{e.message}"
           false
+        end
+      end
+
+      def in_pool
+        ::ActiveRecord::Base.connection_pool.with_connection do
+          yield
         end
       end
 
