@@ -26,6 +26,7 @@ Or install it yourself as:
     $ gem install rimportor
 
 ## Usage
+
 Rimportor adds to every ActiveRecord model an additional method called rimport. This method then takes a collection of your records you want to persist.
 Let me give you an example.
 ```ruby
@@ -56,6 +57,10 @@ users = []
 # Rimportor will insert the 1000 records in 100 chunks
 User.rimport users, batch_size: 100
 ```
+
+## Supported Databases
+
+- MySQL
 
 ## Benchmarks
 
