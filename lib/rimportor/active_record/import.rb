@@ -28,9 +28,7 @@ module Rimportor
         validation_result = ::Parallel.map(@bulk, in_threads: @threads) do |element|
           element.valid?
         end.all?
-        if !validation_result
-          raise Rimportor::Error::BulkValidation.new("Your bulk is not valid")
-        end
+        raise Rimportor::Error::BulkValidation.new("Your bulk is not valid") unless validation_result
       end
 
       def execute_callbacks(element, before_or_after)

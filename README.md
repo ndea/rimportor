@@ -3,8 +3,8 @@
 Import your records blazingly fast. Are you searching for a fast bulk import? Well here you go!
 Rimportor is a new and modern bulk import gem for your rails apps. 
 At this point you might ask why Rimportor is so fast? 
-Well Rimportor uses concurrency to build a big insert statement and then commits this statement in one transaction to the database.
-Let's start the tour
+Well Rimportor uses concurrency together with Arel to build a big insert statement and then commit this statement in one transaction to the database.
+Let's start the tour!
 
 ## Installation
 
@@ -30,6 +30,26 @@ users = []
 1000.times.each { User.new(some_params) }
 User.rimport users # Imports your collection as a bulk insert to your database
 ```
+But wait... what about validations and callbacks of my bulk?
+Rimportor got you! Just add some configuration options for your rimport.
+Let me show you what i mean.
+```ruby
+users = []
+1000.times.each { User.new(some_params) }
+
+# true if bulk valid and imported else false
+User.rimport users, before_callbacks: true, 
+                    after_callbacks: true, 
+                    validate_bulk: true 
+```
+The rimport method returns true if your bulk is valid and all callbacks are executed. 
+If an error occurs Rimportor won't insert your bulk in the database. 
+
+## Benchmarks
+
+The below benchmarks were done with MySQL 5.6.26 on Mac OSX 10.11.1 on the same machine and were tested against the database engine InnoDB. 
+All times are displayed in seconds. Every run was performed on a clean database.
+
 
 ## Development
 
