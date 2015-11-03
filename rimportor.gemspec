@@ -7,14 +7,14 @@ require "rimportor/version"
 Gem::Specification.new do |s|
   s.name = "rimportor"
   s.version = Rimportor::VERSION
-  s.authors = ["Erwin Schens"]
-  s.email = ["erwin.schens@qurasoft.de"]
-  s.homepage = "https://github.com/ndea/rimportor"
-  s.summary = "Fast, modern and concurrent bulk import for ruby on rails."
-  s.description = "Fast, modern and concurrent bulk import for ruby on rails."
-  s.license = "MIT"
+  s.authors = ['Erwin Schens']
+  s.email = ['erwin.schens@qurasoft.de']
+  s.homepage = 'https://github.com/ndea/rimportor'
+  s.summary = 'Fast, modern and concurrent bulk import for ruby on rails.'
+  s.description = 'Fast, modern and concurrent bulk import for ruby on rails.'
+  s.license = 'MIT'
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'rails', '~> 4.0', '>= 4.0.0'
   s.add_dependency 'parallel', '~> 1.5', '>= 1.5.0'
