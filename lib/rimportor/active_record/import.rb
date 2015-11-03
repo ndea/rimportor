@@ -52,7 +52,7 @@ module Rimportor
         begin
           run_validations if @validate_bulk
           run_before_callbacks if @before_callbacks
-          ::ActiveRecord::Base.connection.execute import_statement
+          in_pool { |connection| connection.execute import_statement }
           run_after_callbacks if @after_callbacks
           true
         rescue => e
@@ -62,8 +62,8 @@ module Rimportor
       end
 
       def in_pool
-        ::ActiveRecord::Base.connection_pool.with_connection do
-          yield
+        ::ActiveRecord::Base.connection_pool.with_connection do |connection|
+          yield(connection)
         end
       end
 

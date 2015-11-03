@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rimportor (0.2)
+    rimportor (0.3)
       parallel (~> 1.6.0)
       rails (>= 4.0.0)
 
