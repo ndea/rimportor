@@ -4,10 +4,16 @@ module Rimportor
       class Mysql2
 
         def max_allowed_packet
-          ::ActiveRecord::Base.connection_pool.with_connection do |connection|
+          exec_in_pool do |connection|
             result = connection.execute("SHOW VARIABLES like 'max_allowed_packet';")
             val = result.respond_to?(:fetch_row) ? result.fetch_row[1] : result.first[1]
             val.to_i
+          end
+        end
+
+        def exec_in_pool
+          ::Rimportor::Util::Connection.in_pool do |connection|
+            yield(connection)
           end
         end
 
