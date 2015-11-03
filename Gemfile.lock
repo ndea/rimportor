@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     rimportor (0.3)
-      parallel (>= 1.5.0)
-      rails (>= 4.0.0)
+      parallel (~> 1.5, >= 1.5.0)
+      rails (~> 4.0, >= 4.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -122,7 +122,7 @@ PLATFORMS
 
 DEPENDENCIES
   rimportor!
-  rspec-rails (~> 3.0.0)
+  rspec-rails (~> 3.0.0, >= 3.0.0)
   sqlite3
 
 BUNDLED WITH
