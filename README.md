@@ -31,7 +31,7 @@ Rimportor adds to every ActiveRecord model an additional method called rimport. 
 Let me give you an example.
 ```ruby
 users = []
-1000.times.each { User.new(some_params) }
+1000.times.each { users << User.new(some_params) }
 User.rimport users # Imports your collection as a bulk insert to your database
 ```
 But wait... what about validations and callbacks of my bulk?
@@ -39,7 +39,7 @@ Rimportor got you! Just add some configuration options for your rimport.
 Let me show you what i mean.
 ```ruby
 users = []
-1000.times.each { User.new(some_params) }
+1000.times.each { users << User.new(some_params) }
 
 # true if bulk valid and imported else false
 User.rimport users, before_callbacks: true, 
@@ -52,7 +52,7 @@ If an error occurs Rimportor won't insert your bulk in the database.
 And what if i want to insert my records in batches? Rimportor got your back on that too.
 ```ruby
 users = []
-1000.times.each { User.new(some_params) }
+1000.times.each { users << User.new(some_params) }
     
 # Rimportor will insert the 1000 records in 100 chunks
 User.rimport users, batch_size: 100
@@ -71,11 +71,11 @@ Following ActiveRecord model was used for this benchmark:
 #
 # Table name: test_dummies
 #
-#  id           :integer          not null, primary key
+#  id          :integer          not null, primary key
 #  lorem       :string(255)
-#  lorem2          :string(255)
-#  created_at   :datetime
-#  updated_at   :datetime
+#  lorem2      :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 class TestDummy < ActiveRecord::Base
     validates_presence_of :lorem
